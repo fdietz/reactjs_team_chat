@@ -37,6 +37,10 @@ function mostRecentMessages() {
   return messages.slice(messages.length-20, messages.length);
 }
 
+app.get("/messages", function(request, response) {
+  response.json(200, mostRecentMessages());
+});
+
 app.post("/messages", function(request, response) {
   var text = request.body.text;
 
@@ -72,9 +76,15 @@ io.on("connection", function(socket) {
       user: user,
       sender:"system",
       created_at: new Date().toISOString(),
-      participants: participants,
-      messages: mostRecentMessages()
+      participants: participants
+      // messages: mostRecentMessages()
     });
+  });
+
+  socket.on("fetch", function(data) {
+    console.log("ON fetch", data);
+
+    io.sockets.emit("fetch_result", mostRecentMessages());
   });
 
   socket.on("name_change", function(data) {

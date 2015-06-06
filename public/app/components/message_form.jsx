@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 import React from 'react';
 import MessageActions from '../actions/message_actions';
+import Auth from '../lib/auth';
 
 var ESCAPE_KEY = 27;
 var ENTER_KEY  = 13;
@@ -14,13 +15,16 @@ export default class MessageForm extends React.Component {
   }
 
   handleSubmit(event) {
-    var val = this.state.editText.trim();
+    var messageText = this.state.editText.trim();
 
-    if (val) {
+    if (messageText) {
       this.setState({ editText: "" });
-      let userId = 1;
 
-      MessageActions.create({ text: val, userId: userId });
+      MessageActions.create({
+        text:       messageText,
+        created_at: new Date().toISOString(),
+        user_id:    Auth.getCurrentUser().id
+      });
     }
   }
 
@@ -43,7 +47,6 @@ export default class MessageForm extends React.Component {
           <textarea
             ref="editField"
             value={this.state.editText}
-            onBlur={this.handleSubmit.bind(this)}
             onKeyDown={this.handleKeyDown.bind(this)}
             onChange={this.handleChange.bind(this)}
             placeholder="Press enter to send message"

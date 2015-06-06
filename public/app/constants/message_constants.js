@@ -1,3 +1,5 @@
 export default {
-  CREATE: "CREATE"
+  CREATE: "CREATE",
+  ADD: "ADD",
+  FETCH: "FETCH"
 }

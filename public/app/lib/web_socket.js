@@ -31,6 +31,10 @@ class WebSocket {
     });
   }
 
+  emit(key, data) {
+    this.socket.emit(key, data);
+  }
+
   on(key, callback) {
     this.socket.on(key, callback);
   }
