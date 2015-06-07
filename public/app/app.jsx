@@ -1,66 +1,14 @@
-/** @jsx React.DOM */
 import React from 'react'
 import Sidebar from './components/sidebar.jsx!'
-import MessageList from "./components/message_list.jsx!"
+import MessageListComponent from "./components/MessageListComponent.jsx!"
 import MessageForm from "./components/message_form.jsx!"
 
-import messageStore from './stores/message_store'
-import appDispatcher from './dispatchers/app_dispatcher';
-import MessageActions from './actions/message_actions';
-
-import WebSocket from './lib/web_socket';
-import Auth from "./lib/auth";
+import webSocket from "./lib/web_socket";
 
 class App extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      messages: messageStore.getAll()
-    };
-
-    this._onChange = this._onChange.bind(this);
-    this._handleIncomingMessage = this._handleIncomingMessage.bind(this);
-    this._handleNewConnection = this._handleNewConnection.bind(this);
-    this._handleUserDisconnected = this._handleUserDisconnected.bind(this);
-  }
-
-  componentDidMount() {
-    messageStore.addChangeListener(this._onChange);
-    MessageActions.fetch();
-
-    WebSocket.on('incoming_message',  this._handleIncomingMessage);
-    WebSocket.on('new_connection',    this._handleNewConnection);
-    WebSocket.on('user_disconnected', this._handleUserDisconnected);
-  }
-
-  componentWillUnmount() {
-    messageStore.removeChangeListener(this._onChange);
-
-    WebSocket.off('incoming_message',  this._handleIncomingMessage);
-    WebSocket.off('new_connection',    this._handleNewConnection);
-    WebSocket.off('user_disconnected', this._handleUserDisconnected);
-  }
-
-  _handleIncomingMessage(data) {
-    MessageActions.add({ text: data.text, user: data.user, created_at: data.created_at, type: "message" });
-  }
-
-  _handleUserDisconnected(data) {
-    MessageActions.add({ text: `User ${data.user.name} disconnected`, name: "System", created_at: data.created_at, type: "notification" });
-  }
-
-  _handleNewConnection(data) {
-    if (Auth.getCurrentUser()) {
-      MessageActions.add({ text: `User ${data.user.name} joined`, name: "System", created_at: data.created_at, type: "notification" });
-    }
-  }
-
-  _onChange() {
-    this.setState({
-      messages: messageStore.getAll()
-    });
   }
 
   render() {
@@ -78,8 +26,8 @@ class App extends React.Component {
             </div>
           </div>
 
-          <MessageList messages={this.state.messages}></MessageList>
-          <MessageForm></MessageForm>
+          <MessageListComponent/>
+          <MessageForm/>
         </div>
       </div>
     )

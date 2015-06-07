@@ -91,13 +91,13 @@ let messageStore = new MessageStore(appDispatcher);
 
 appDispatcher.register((action) => {
   switch(action.actionType) {
-    case MessageConstants.CREATE:
+    case MessageConstants.MESSAGE_CREATE:
       messageStore.create(action.message);
       break;
-    case MessageConstants.ADD:
+    case MessageConstants.MESSAGE_ADD:
       messageStore.add(action.message);
       break;
-    case MessageConstants.FETCH:
+    case MessageConstants.MESSAGE_FETCH:
       messageStore.fetch();
       break;
   }

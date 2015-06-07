@@ -2,8 +2,8 @@
 import React from 'react';
 import ParticipantsList from "./participants_list.jsx!"
 
-export default React.createClass({
-  render: function () {
+export default class Sidebar extends React.Component {
+  render() {
     return (
       <div className="sidebar">
         <header>
@@ -21,7 +21,7 @@ export default React.createClass({
           </ul>
 
           <h4 className="sidebar-nav-header">Participants</h4>
-          <ParticipantsList></ParticipantsList>
+          <ParticipantsList/>
         </div>
 
         <footer>
@@ -36,4 +36,4 @@ export default React.createClass({
       </div>
     );
   }
-})
+}

@@ -3,7 +3,7 @@ import React from 'react';
 import _ from "lodash";
 import MessageItem from "./message_item.jsx!"
 
-export default class MessageList extends React.Component {
+let MessageList = class extends React.Component {
 
   constructor() {
     this.alreadyAtBottom = true;
@@ -62,3 +62,9 @@ export default class MessageList extends React.Component {
     );
   }
 }
+
+MessageList.propTypes = {
+  messages: React.PropTypes.array.isRequired
+};
+
+export default MessageList;

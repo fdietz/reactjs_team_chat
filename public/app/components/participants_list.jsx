@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 import React from 'react';
-import WebSocket from '../lib/web_socket';
+
+import userStore from '../stores/UserStore';
 
 export default class ParticipantsList extends React.Component {
 
@@ -8,23 +9,23 @@ export default class ParticipantsList extends React.Component {
     super(props);
 
     this.state = {
-      participants: []
+      participants: userStore.getAll()
     };
 
-    this._handleNewConnection = this._handleNewConnection.bind(this);
+    this._onChange = this._onChange.bind(this);
   }
 
   componentDidMount() {
-    WebSocket.on('new_connection', this._handleNewConnection);
+    userStore.addChangeListener(this._onChange);
   }
 
   componentWillUnmount() {
-    WebSocket.off('new_connection', this._handleNewConnection);
+    userStore.removeChangeListener(this._onChange);
   }
 
-  _handleNewConnection(data) {
+  _onChange() {
     this.setState({
-      participants: data.participants || []
+      participants: userStore.getAll()
     });
   }
 

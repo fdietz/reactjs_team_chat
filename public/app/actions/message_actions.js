@@ -9,21 +9,21 @@ class MessageActions {
 
   create(message) {
     this.appDispatcher.dispatch({
-      actionType: MessageConstants.CREATE,
+      actionType: MessageConstants.MESSAGE_CREATE,
       message: message
     });
   }
 
   add(message) {
     this.appDispatcher.dispatch({
-      actionType: MessageConstants.ADD,
+      actionType: MessageConstants.MESSAGE_ADD,
       message: message
     });
   }
 
   fetch() {
     this.appDispatcher.dispatch({
-      actionType: MessageConstants.FETCH
+      actionType: MessageConstants.MESSAGE_FETCH
     });
   }
 }

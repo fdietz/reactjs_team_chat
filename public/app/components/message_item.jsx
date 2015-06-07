@@ -4,7 +4,7 @@ import moment from 'moment'
 import Avatar from "./avatar.jsx!"
 import FormatMessage from "../lib/format_message"
 
-export default class MessageItem extends React.Component {
+let MessageItem = class extends React.Component {
 
   render() {
     let formattedMessage = this.props.message.text;
@@ -44,3 +44,15 @@ export default class MessageItem extends React.Component {
     }
   }
 }
+
+MessageItem.propTypes = {
+  message: React.PropTypes.shape({
+    text: React.PropTypes.string.isRequired,
+    created_at: React.PropTypes.string.isRequired,
+    user: React.PropTypes.shape({
+      name: React.PropTypes.isRequired
+    })
+  }).isRequired
+};
+
+export default MessageItem;

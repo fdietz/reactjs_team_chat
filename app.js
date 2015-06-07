@@ -52,7 +52,7 @@ app.post("/messages", function(request, response) {
     messages.push({ text: text, user: user, type: "message", created_at: created_at });
 
     // let our chatroom know there was a new message
-    io.sockets.emit("incoming_message", _.last(messages));
+    io.sockets.emit("message:added", { message: _.last(messages) });
 
     response.json(200, { message: "Message received" });
   } else {
@@ -75,10 +75,12 @@ io.on("connection", function(socket) {
     io.sockets.emit("new_connection", {
       user: user,
       sender:"system",
-      created_at: new Date().toISOString(),
-      participants: participants
+      created_at: new Date().toISOString()
+      // participants: participants
       // messages: mostRecentMessages()
     });
+
+    io.sockets.emit("user:connected", { user: user, created_at: new Date().toISOString() });
   });
 
   socket.on("fetch", function(data) {
@@ -104,6 +106,8 @@ io.on("connection", function(socket) {
       sender:"system",
       created_at: new Date().toISOString()
     });
+
+    io.sockets.emit("user:disconnected", { user: participant, created_at: new Date().toISOString() });
   });
 });
 
