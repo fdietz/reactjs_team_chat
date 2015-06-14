@@ -1,5 +1,5 @@
-import appDispatcher from '../dispatchers/app_dispatcher';
-import MessageConstants from '../constants/message_constants';
+import AppDispatcher from '../dispatchers/AppDispatcher';
+import MessageConstants from '../constants/MessageConstants';
 import ServerConstants from '../constants/ServerConstants';
 
 import EventEmitter from 'wolfy87-eventemitter';
@@ -12,7 +12,7 @@ let messageErrors = [];
 
 class MessageStore {
 
-  constructor(appDispatcher) {
+  constructor(AppDispatcher) {
     this._messages = [];
     this._emitter  = new EventEmitter();
 
@@ -74,9 +74,9 @@ class MessageStore {
   }
 }
 
-let messageStore = new MessageStore(appDispatcher);
+let messageStore = new MessageStore(AppDispatcher);
 
-appDispatcher.register((action) => {
+AppDispatcher.register((action) => {
   switch(action.actionType) {
     case ServerConstants.RECEIVE_CREATED_MESSAGE:
       if (action.data.message) {

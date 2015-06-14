@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 import React from 'react';
-import MessageActions from '../actions/message_actions';
-import Auth from '../lib/auth';
+import MessageActionsCreator from '../actions/MessageActionsCreator';
+import Auth from '../lib/Auth';
 import MessageFormStore from '../stores/MessageFormStore';
 
 var ESCAPE_KEY = 27;
@@ -44,7 +44,8 @@ export default class MessageForm extends React.Component {
       isValid: true
     });
 
-    MessageActions.create({
+    console.log("Auth", Auth, Auth.getCurrentUser())
+    MessageActionsCreator.create({
       text:       messageText,
       created_at: new Date().toISOString(),
       user_id:    Auth.getCurrentUser().id

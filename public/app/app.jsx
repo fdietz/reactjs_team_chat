@@ -1,9 +1,9 @@
 import React from 'react'
-import Sidebar from './components/sidebar.jsx!'
+import Sidebar from './components/Sidebar.jsx!'
 import MessageListComponent from "./components/MessageListComponent.jsx!"
-import MessageForm from "./components/message_form.jsx!"
+import MessageForm from "./components/MessageForm.jsx!"
 
-import webSocket from "./lib/web_socket";
+import WebSocket from "./lib/WebSocket";
 
 class App extends React.Component {
 

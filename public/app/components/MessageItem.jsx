@@ -1,8 +1,8 @@
 /** @jsx React.DOM */
 import React from 'react'
 import moment from 'moment'
-import Avatar from "./avatar.jsx!"
-import FormatMessage from "../lib/format_message"
+import Avatar from "./Avatar.jsx!"
+import FormatMessage from "../lib/FormatMessage"
 
 let MessageItem = class extends React.Component {
 

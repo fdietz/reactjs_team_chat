@@ -1,12 +1,11 @@
-import Auth from "./auth";
+import Auth from "./Auth";
 
-import MessageActions from '../actions/message_actions';
-import UserActions from '../actions/UserActions';
+import MessageActionsCreator from '../actions/MessageActionsCreator';
+import UserActionsCreator from '../actions/UserActionsCreator';
 
 class WebSocket {
 
   constructor() {
-    console.log("==")
     this._handleMessageAdded = this._handleMessageAdded.bind(this);
     this._handleUserConnected = this._handleUserConnected.bind(this);
     this._handleUserDisconnected = this._handleUserDisconnected.bind(this);
@@ -46,17 +45,17 @@ class WebSocket {
   }
 
   _handleMessageAdded(data) {
-    MessageActions.add({ text: data.message.text, user: data.message.user, created_at: data.message.created_at, type: "message" });
+    MessageActionsCreator.add({ text: data.message.text, user: data.message.user, created_at: data.message.created_at, type: "message" });
   }
 
   _handleUserConnected(data) {
-    MessageActions.add({ text: `User ${data.user.name} joined`, name: "System", created_at: data.created_at, type: "notification" });
-    UserActions.add(data.user);
+    MessageActionsCreator.add({ text: `User ${data.user.name} joined`, name: "System", created_at: data.created_at, type: "notification" });
+    UserActionsCreator.add(data.user);
   }
 
   _handleUserDisconnected(data) {
-    MessageActions.add({ text: `User ${data.user.name} disconnected`, name: "System", created_at: data.created_at, type: "notification" });
-    UserActions.remove(data.user);
+    MessageActionsCreator.add({ text: `User ${data.user.name} disconnected`, name: "System", created_at: data.created_at, type: "notification" });
+    UserActionsCreator.remove(data.user);
   }
 }
 

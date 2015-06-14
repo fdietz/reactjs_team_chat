@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 import React from 'react';
-import ParticipantsList from "./participants_list.jsx!"
+import ParticipantsList from "./ParticipantsList.jsx!"
 
 export default class Sidebar extends React.Component {
   render() {

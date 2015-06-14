@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 import React from 'react';
 import _ from "lodash";
-import MessageItem from "./message_item.jsx!"
+import MessageItem from "./MessageItem.jsx!"
 
 let MessageList = class extends React.Component {
 

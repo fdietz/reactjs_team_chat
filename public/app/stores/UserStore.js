@@ -1,4 +1,4 @@
-import appDispatcher from '../dispatchers/app_dispatcher';
+import AppDispatcher from '../dispatchers/AppDispatcher';
 import UserConstants from '../constants/UserConstants';
 
 import EventEmitter from 'wolfy87-eventemitter';
@@ -9,7 +9,7 @@ var CHANGE_EVENT = 'change';
 
 class UserStore {
 
-  constructor(appDispatcher) {
+  constructor(AppDispatcher) {
     this._users = [];
     this._emitter  = new EventEmitter();
   }
@@ -46,9 +46,9 @@ class UserStore {
   }
 }
 
-let userStore = new UserStore(appDispatcher);
+let userStore = new UserStore(AppDispatcher);
 
-appDispatcher.register((action) => {
+AppDispatcher.register((action) => {
   switch(action.actionType) {
     case UserConstants.USER_ADD:
       userStore.add(action.user);

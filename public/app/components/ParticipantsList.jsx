@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 import React from 'react';
 
-import userStore from '../stores/UserStore';
+import UserStore from '../stores/UserStore';
 
 export default class ParticipantsList extends React.Component {
 
@@ -9,23 +9,23 @@ export default class ParticipantsList extends React.Component {
     super(props);
 
     this.state = {
-      participants: userStore.getAll()
+      participants: UserStore.getAll()
     };
 
     this._onChange = this._onChange.bind(this);
   }
 
   componentDidMount() {
-    userStore.addChangeListener(this._onChange);
+    UserStore.addChangeListener(this._onChange);
   }
 
   componentWillUnmount() {
-    userStore.removeChangeListener(this._onChange);
+    UserStore.removeChangeListener(this._onChange);
   }
 
   _onChange() {
     this.setState({
-      participants: userStore.getAll()
+      participants: UserStore.getAll()
     });
   }
 

@@ -1,17 +1,17 @@
-import appDispatcher from '../dispatchers/app_dispatcher';
-import MessageConstants from '../constants/message_constants';
+import AppDispatcher from '../dispatchers/AppDispatcher';
+import MessageConstants from '../constants/MessageConstants';
 import WebAPI from '../lib/WebAPI';
 
-class MessageActions {
+class MessageActionsCreator {
 
-  constructor(appDispatcher) {
-    this.appDispatcher = appDispatcher;
+  constructor(AppDispatcher) {
+    this.AppDispatcher = AppDispatcher;
   }
 
   create(message) {
     // dispatch event for consistency reasons, but
     // is not used currently
-    this.appDispatcher.dispatch({
+    this.AppDispatcher.dispatch({
       actionType: MessageConstants.MESSAGE_CREATE,
       message: message
     });
@@ -20,7 +20,7 @@ class MessageActions {
   }
 
   add(message) {
-    this.appDispatcher.dispatch({
+    this.AppDispatcher.dispatch({
       actionType: MessageConstants.MESSAGE_ADD,
       message: message
     });
@@ -29,7 +29,7 @@ class MessageActions {
   fetch() {
     // dispatch event for consistency reasons, but
     // is not used currently
-    this.appDispatcher.dispatch({
+    this.AppDispatcher.dispatch({
       actionType: MessageConstants.MESSAGE_FETCH
     });
 
@@ -37,5 +37,5 @@ class MessageActions {
   }
 }
 
-let messageActions = new MessageActions(appDispatcher);
-export default messageActions;
+let messageActionsCreator = new MessageActionsCreator(AppDispatcher);
+export default messageActionsCreator;
