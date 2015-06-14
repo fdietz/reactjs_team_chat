@@ -1,27 +1,20 @@
 import AppDispatcher from '../dispatchers/AppDispatcher';
 import ServerConstants from '../constants/ServerConstants';
 
-class ServerActionsCreator {
+export default {
 
-  constructor(AppDispatcher) {
-    this.AppDispatcher = AppDispatcher;
-  }
-
-  receiveMessages(messages) {
-    this.AppDispatcher.dispatch({
+  receiveMessages: function(messages) {
+    AppDispatcher.dispatch({
       actionType: ServerConstants.RECEIVE_MESSAGES,
       messages: messages
     });
-  }
+  },
 
-  receiveCreatedMessage(data) {
-    this.AppDispatcher.dispatch({
+  receiveCreatedMessage: function(data) {
+    AppDispatcher.dispatch({
       actionType: ServerConstants.RECEIVE_CREATED_MESSAGE,
       data: data
     });
   }
 
 }
-
-let serverActionsCreator = new ServerActionsCreator(AppDispatcher);
-export default serverActionsCreator;

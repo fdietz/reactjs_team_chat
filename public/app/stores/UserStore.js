@@ -9,7 +9,7 @@ var CHANGE_EVENT = 'change';
 
 class UserStore {
 
-  constructor(AppDispatcher) {
+  constructor() {
     this._users = [];
     this._emitter  = new EventEmitter();
   }
@@ -46,7 +46,7 @@ class UserStore {
   }
 }
 
-let userStore = new UserStore(AppDispatcher);
+let userStore = new UserStore();
 
 AppDispatcher.register((action) => {
   switch(action.actionType) {

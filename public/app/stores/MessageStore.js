@@ -12,7 +12,7 @@ let messageErrors = [];
 
 class MessageStore {
 
-  constructor(AppDispatcher) {
+  constructor() {
     this._messages = [];
     this._emitter  = new EventEmitter();
 
@@ -74,7 +74,7 @@ class MessageStore {
   }
 }
 
-let messageStore = new MessageStore(AppDispatcher);
+let messageStore = new MessageStore();
 
 AppDispatcher.register((action) => {
   switch(action.actionType) {

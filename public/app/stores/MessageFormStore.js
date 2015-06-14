@@ -7,7 +7,7 @@ import EventEmitter from 'wolfy87-eventemitter';
 var CHANGE_EVENT = 'change';
 
 class MessageFormStore {
-  constructor(AppDispatcher) {
+  constructor() {
     this._formErrors = [];
     this._emitter    = new EventEmitter();
   }
@@ -38,7 +38,7 @@ class MessageFormStore {
   }
 }
 
-let messageFormStore = new MessageFormStore(AppDispatcher);
+let messageFormStore = new MessageFormStore();
 
 AppDispatcher.register((action) => {
   switch(action.actionType) {

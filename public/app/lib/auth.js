@@ -1,10 +1,10 @@
-export default class Auth {
+export default {
 
-  static setCurrentUser(user) {
+  setCurrentUser: function(user) {
     this.currentUser = user;
-  }
+  },
 
-  static getCurrentUser() {
+  getCurrentUser: function() {
     return this.currentUser;
   }
 }

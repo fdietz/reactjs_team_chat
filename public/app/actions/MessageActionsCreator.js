@@ -2,40 +2,33 @@ import AppDispatcher from '../dispatchers/AppDispatcher';
 import MessageConstants from '../constants/MessageConstants';
 import WebAPI from '../lib/WebAPI';
 
-class MessageActionsCreator {
+export default {
 
-  constructor(AppDispatcher) {
-    this.AppDispatcher = AppDispatcher;
-  }
-
-  create(message) {
+  create: function(message) {
     // dispatch event for consistency reasons, but
     // is not used currently
-    this.AppDispatcher.dispatch({
+    AppDispatcher.dispatch({
       actionType: MessageConstants.MESSAGE_CREATE,
       message: message
     });
 
     WebAPI.createMessage(message);
-  }
+  },
 
-  add(message) {
-    this.AppDispatcher.dispatch({
+  add: function(message) {
+    AppDispatcher.dispatch({
       actionType: MessageConstants.MESSAGE_ADD,
       message: message
     });
-  }
+  },
 
-  fetch() {
+  fetch: function() {
     // dispatch event for consistency reasons, but
     // is not used currently
-    this.AppDispatcher.dispatch({
+    AppDispatcher.dispatch({
       actionType: MessageConstants.MESSAGE_FETCH
     });
 
     WebAPI.fetchMessages();
   }
 }
-
-let messageActionsCreator = new MessageActionsCreator(AppDispatcher);
-export default messageActionsCreator;

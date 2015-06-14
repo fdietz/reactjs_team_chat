@@ -2,9 +2,9 @@ import $ from "jquery";
 
 import ServerActionsCreator from "../actions/ServerActionsCreator";
 
-class WebAPI {
+export default {
 
-  fetchMessages() {
+  fetchMessages: function() {
     $.ajax({
       type: "GET",
       url: "/messages",
@@ -15,9 +15,9 @@ class WebAPI {
       },
       error: function(error) { alert(error); }
     });
-  }
+  },
 
-  createMessage(message) {
+  createMessage: function(message) {
     $.ajax({
       type: "POST",
       url: "/messages",
@@ -32,9 +32,4 @@ class WebAPI {
       }
     });
   }
-
 }
-
-let webAPI = new WebAPI();
-
-export default webAPI;

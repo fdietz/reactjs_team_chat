@@ -1,12 +1,12 @@
 import Autolinker from "autolinker";
 
-export default class FormatMessage {
+export default {
 
-  static breakNewLine(str) {
+  breakNewLine: function(str) {
     return str.replace(/(\r|\n)/g, '<br>');
-  }
+  },
 
-  static autoLink(str) {
+  autoLink: function(str) {
     return Autolinker.link(str, {
       newWindow: true,
       className: "auto-link",
