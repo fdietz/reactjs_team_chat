@@ -1,5 +1,6 @@
 import appDispatcher from '../dispatchers/app_dispatcher';
 import MessageConstants from '../constants/message_constants';
+import WebAPI from '../lib/WebAPI';
 
 class MessageActions {
 
@@ -8,10 +9,14 @@ class MessageActions {
   }
 
   create(message) {
+    // dispatch event for consistency reasons, but
+    // is not used currently
     this.appDispatcher.dispatch({
       actionType: MessageConstants.MESSAGE_CREATE,
       message: message
     });
+
+    WebAPI.createMessage(message);
   }
 
   add(message) {
@@ -22,9 +27,13 @@ class MessageActions {
   }
 
   fetch() {
+    // dispatch event for consistency reasons, but
+    // is not used currently
     this.appDispatcher.dispatch({
       actionType: MessageConstants.MESSAGE_FETCH
     });
+
+    WebAPI.fetchMessages();
   }
 }
 

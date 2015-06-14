@@ -48,19 +48,22 @@ app.post("/messages", function(request, response) {
     var user_id    = request.body.user_id;
     var created_at = request.body.created_at;
     var user       = _.findWhere(participants, { id: user_id });
+    var message    = { text: text, user: user, type: "message", created_at: created_at };
 
-    messages.push({ text: text, user: user, type: "message", created_at: created_at });
+    messages.push(message);
 
-    // let our chatroom know there was a new message
-    io.sockets.emit("message:added", { message: _.last(messages) });
+    // let our chatroom know there was a new message, except the user who send the message
+    clientSockets[user.id].broadcast.emit("message:added", { message: message });
 
-    response.json(200, { message: "Message received" });
+    response.json(200, { message: message });
   } else {
-    return response.json(400, { error: "Invalid message. Missing text param." });
+    return response.json(400, { errors: { text: "Invalid message. Missing text param." } });
   }
 });
 
 var nameCounter = 1;
+
+var clientSockets = {};
 
 io.on("connection", function(socket) {
   socket.on("new_user", function(data) {
@@ -69,6 +72,7 @@ io.on("connection", function(socket) {
     var newName = "Guest " + nameCounter++;
     var user = { id: data.id, name: newName, initials: "FD" };
     participants.push(user);
+    clientSockets[data.id] = socket;
 
     console.log("messages", messages, mostRecentMessages())
 

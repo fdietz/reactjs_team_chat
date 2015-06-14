@@ -1,11 +1,14 @@
 import appDispatcher from '../dispatchers/app_dispatcher';
 import MessageConstants from '../constants/message_constants';
+import ServerConstants from '../constants/ServerConstants';
 
 import EventEmitter from 'wolfy87-eventemitter';
 import _ from "lodash";
 import $ from "jquery";
 
 var CHANGE_EVENT = 'change';
+
+let messageErrors = [];
 
 class MessageStore {
 
@@ -14,31 +17,6 @@ class MessageStore {
     this._emitter  = new EventEmitter();
 
     this.currentId = 1;
-  }
-
-  create(message) {
-    $.ajax({
-      type: "POST",
-      url: "/messages",
-      data: JSON.stringify(message),
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      success: function(data) {},
-      failure: function(error) { alert(error); }
-    });
-  }
-
-  fetch() {
-    $.ajax({
-      type: "GET",
-      url: "/messages",
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      success: function(data) {
-        data.forEach(this.add.bind(this));
-      }.bind(this),
-      failure: function(error) { alert(error); }
-    });
   }
 
   emitChange() {
@@ -60,6 +38,15 @@ class MessageStore {
   add(attributes) {
     let message = _.extend({ id: this._nextId() }, attributes);
     this._messages.push(message);
+    this.emitChange();
+  }
+
+  addBulk(messages) {
+    messages.forEach(function(message) {
+      _.extend(message, { id: this._nextId() });
+    }.bind(this));
+
+    this._messages = messages;
     this.emitChange();
   }
 
@@ -91,14 +78,18 @@ let messageStore = new MessageStore(appDispatcher);
 
 appDispatcher.register((action) => {
   switch(action.actionType) {
-    case MessageConstants.MESSAGE_CREATE:
-      messageStore.create(action.message);
+    case ServerConstants.RECEIVE_CREATED_MESSAGE:
+      if (action.data.message) {
+        messageStore.add(action.data.message);
+        messageErrors = [];
+      }
+
       break;
     case MessageConstants.MESSAGE_ADD:
       messageStore.add(action.message);
       break;
-    case MessageConstants.MESSAGE_FETCH:
-      messageStore.fetch();
+    case ServerConstants.RECEIVE_MESSAGES:
+      messageStore.addBulk(action.messages);
       break;
   }
 });

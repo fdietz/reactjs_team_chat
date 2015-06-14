@@ -2,6 +2,7 @@
 import React from 'react';
 import MessageActions from '../actions/message_actions';
 import Auth from '../lib/auth';
+import MessageFormStore from '../stores/MessageFormStore';
 
 var ESCAPE_KEY = 27;
 var ENTER_KEY  = 13;
@@ -11,21 +12,43 @@ export default class MessageForm extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { editText: "" };
+    this.state = {
+      editText: "",
+      isValid: true
+    };
+
+    this._onChange = this._onChange.bind(this);
+  }
+
+  componentDidMount() {
+    MessageFormStore.addChangeListener(this._onChange);
+  }
+
+  componentWillUnmount() {
+    MessageFormStore.removeChangeListener(this._onChange);
+  }
+
+  _onChange() {
+    console.log("onChange")
+    this.setState({
+      editText: this.refs.editField.value,
+      isValid: MessageFormStore.isValid()
+    });
   }
 
   handleSubmit(event) {
     var messageText = this.state.editText.trim();
 
-    if (messageText) {
-      this.setState({ editText: "" });
+    this.setState({
+      editText: "",
+      isValid: true
+    });
 
-      MessageActions.create({
-        text:       messageText,
-        created_at: new Date().toISOString(),
-        user_id:    Auth.getCurrentUser().id
-      });
-    }
+    MessageActions.create({
+      text:       messageText,
+      created_at: new Date().toISOString(),
+      user_id:    Auth.getCurrentUser().id
+    });
   }
 
   handleKeyDown(event) {
@@ -37,10 +60,15 @@ export default class MessageForm extends React.Component {
   }
 
   handleChange(event) {
-    this.setState({ editText: event.target.value });
+    this.setState({
+      editText: event.target.value,
+      isValid: true
+    });
   }
 
   render() {
+    let style = this.state.isValid ? {} : { borderColor: "red" };
+
     return (
       <div className="message-form">
         <form>
@@ -50,7 +78,8 @@ export default class MessageForm extends React.Component {
             onKeyDown={this.handleKeyDown.bind(this)}
             onChange={this.handleChange.bind(this)}
             placeholder="Press enter to send message"
-            autoFocus={true}/>
+            autoFocus={true}
+            style={style}/>
         </form>
       </div>
     );
